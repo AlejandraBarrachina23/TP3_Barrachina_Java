@@ -14,11 +14,10 @@ import java.awt.event.ActionEvent;
 
 public class FormularioHabitaciones extends JFrame {
 
+
+	private static final long serialVersionUID = 1L;
 	private JPanel pnlPrincipal;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -32,30 +31,16 @@ public class FormularioHabitaciones extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+
 	public FormularioHabitaciones() {
 		setTitle("Habitaciones");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 545, 300);
-		
-		
+		setBounds(100, 100, 571, 436);
 		JMenuBar menuHabitaciones = new JMenuBar();
 		setJMenuBar(menuHabitaciones);
 		JMenu mnHabitaciones = new JMenu("Habitaciones");
 		menuHabitaciones.add(mnHabitaciones);
 		JMenuItem mntmAgregarReserva = new JMenuItem("Agregar Reserva");
-		
-		mntmAgregarReserva.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				AgregarReserva formularioAgregarReserva = new AgregarReserva();
-				pnlPrincipal.add(formularioAgregarReserva);
-				pnlPrincipal.repaint();
-				pnlPrincipal.revalidate();
-			}
-		});
 		mnHabitaciones.add(mntmAgregarReserva);
 		JMenuItem mntmListarReservas = new JMenuItem("Listar Reservas");
 		mnHabitaciones.add(mntmListarReservas);
@@ -63,6 +48,28 @@ public class FormularioHabitaciones extends JFrame {
 		pnlPrincipal.setBorder(new EmptyBorder(5, 5, 5, 5));
 		pnlPrincipal.setLayout(new BorderLayout(0, 0));
 		setContentPane(pnlPrincipal);
+		
+		mntmAgregarReserva.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				pnlPrincipal.removeAll();
+				AgregarReserva formularioAgregarReserva = new AgregarReserva();
+				pnlPrincipal.add(formularioAgregarReserva);
+				pnlPrincipal.repaint();
+				pnlPrincipal.revalidate();
+			}
+		});
+
+		mntmListarReservas.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				pnlPrincipal.removeAll();
+				ListadoHabitaciones formularioListarHabitaciones = new ListadoHabitaciones();
+				pnlPrincipal.add(formularioListarHabitaciones);
+				pnlPrincipal.repaint();
+				pnlPrincipal.revalidate();
+			}
+		});
 		
 	
 	}

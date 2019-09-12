@@ -9,12 +9,12 @@ import javax.swing.JComboBox;
 import javax.swing.JTextField;
 
 public class AgregarReserva extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 	private JTextField tboxCantidad;
 	private JButton btnAceptar;
+	private String[] ListadoTipoHabitacion = {"Simple","Triple","Doble","Cuadruple","Suite"};	
 
-	/**
-	 * Create the panel.
-	 */
 	public AgregarReserva() {
 		setBorder(new TitledBorder(null, "Agregar Habitaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(null);
@@ -51,9 +51,11 @@ public class AgregarReserva extends JPanel {
 		btnAceptar.setBounds(204, 161, 89, 23);
 		add(btnAceptar);
 		
-		JComboBox cboxTipoHabitacion = new JComboBox();
+		JComboBox<String> cboxTipoHabitacion = new JComboBox<String>();
 		cboxTipoHabitacion.setBounds(150, 73, 294, 20);
+		Utilidades.CargarComboBox(ListadoTipoHabitacion, cboxTipoHabitacion);
 		add(cboxTipoHabitacion);
+		
 		
 		tboxCantidad = new JTextField();
 		tboxCantidad.setBounds(150, 35, 294, 20);

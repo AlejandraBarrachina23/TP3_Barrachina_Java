@@ -8,18 +8,21 @@ import javax.swing.JComboBox;
 import javax.swing.JButton;
 
 public class ListadoHabitaciones extends JPanel {
+
+	private static final long serialVersionUID = 1L;
 	private JTextField tboxID;
 	private JTextField tboxCantidadPersonas;
+	private String[] ListadoTipoHabitacion = {"Simple","Triple","Doble","Cuadruple","Suite"};	
 
 	public ListadoHabitaciones() {
 		setLayout(null);
 		
 		JLabel lblListadoDeHabitaciones = new JLabel("Listado de Habitaciones reservadas");
-		lblListadoDeHabitaciones.setBounds(10, 11, 170, 14);
+		lblListadoDeHabitaciones.setBounds(10, 11, 398, 14);
 		add(lblListadoDeHabitaciones);
 		
 		JList lstReservas = new JList();
-		lstReservas.setBounds(10, 36, 472, 227);
+		lstReservas.setBounds(10, 36, 482, 227);
 		add(lstReservas);
 		
 		JLabel lblId = new JLabel("ID");
@@ -31,7 +34,7 @@ public class ListadoHabitaciones extends JPanel {
 		add(lblCantPersonas);
 		
 		JLabel lblTipoDeHabitacin = new JLabel("TIPO DE HABITACI\u00D3N");
-		lblTipoDeHabitacin.setBounds(172, 279, 112, 14);
+		lblTipoDeHabitacin.setBounds(172, 279, 135, 14);
 		add(lblTipoDeHabitacin);
 		
 		tboxID = new JTextField();
@@ -44,16 +47,18 @@ public class ListadoHabitaciones extends JPanel {
 		tboxCantidadPersonas.setBounds(68, 297, 91, 20);
 		add(tboxCantidadPersonas);
 		
-		JComboBox cboxTipoHabitacion = new JComboBox();
-		cboxTipoHabitacion.setBounds(169, 297, 115, 20);
+		JComboBox <String> cboxTipoHabitacion = new JComboBox<String>();
+		cboxTipoHabitacion.setBounds(169, 297, 130, 20);
+		Utilidades.CargarComboBox(ListadoTipoHabitacion, cboxTipoHabitacion);
+		
 		add(cboxTipoHabitacion);
 		
 		JButton btnModificar = new JButton("Modificar");
-		btnModificar.setBounds(294, 296, 89, 23);
+		btnModificar.setBounds(309, 296, 89, 23);
 		add(btnModificar);
 		
 		JButton btnEliminar = new JButton("Eliminar");
-		btnEliminar.setBounds(393, 296, 89, 23);
+		btnEliminar.setBounds(403, 296, 89, 23);
 		add(btnEliminar);
 
 	}
