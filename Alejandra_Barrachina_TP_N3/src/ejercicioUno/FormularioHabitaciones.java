@@ -3,6 +3,7 @@ package ejercicioUno;
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -17,6 +18,7 @@ public class FormularioHabitaciones extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel pnlPrincipal;
+	private static DefaultListModel<Habitacion> ModeloHabitaciones;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -24,6 +26,7 @@ public class FormularioHabitaciones extends JFrame {
 				try {
 					FormularioHabitaciones frame = new FormularioHabitaciones();
 					frame.setVisible(true);
+					ModeloHabitaciones = new DefaultListModel<Habitacion>();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -52,8 +55,10 @@ public class FormularioHabitaciones extends JFrame {
 		mntmAgregarReserva.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
+				
 				pnlPrincipal.removeAll();
 				AgregarReserva formularioAgregarReserva = new AgregarReserva();
+				formularioAgregarReserva.setModeloHabitaciones(ModeloHabitaciones);
 				pnlPrincipal.add(formularioAgregarReserva);
 				pnlPrincipal.repaint();
 				pnlPrincipal.revalidate();
@@ -65,13 +70,13 @@ public class FormularioHabitaciones extends JFrame {
 				
 				pnlPrincipal.removeAll();
 				ListadoHabitaciones formularioListarHabitaciones = new ListadoHabitaciones();
+				formularioListarHabitaciones.setModeloHabitaciones(ModeloHabitaciones);
 				pnlPrincipal.add(formularioListarHabitaciones);
 				pnlPrincipal.repaint();
 				pnlPrincipal.revalidate();
 			}
 		});
 		
-	
 	}
 
 }
