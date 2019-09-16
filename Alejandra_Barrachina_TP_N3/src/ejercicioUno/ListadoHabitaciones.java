@@ -68,13 +68,12 @@ public class ListadoHabitaciones extends JPanel {
 		lstReservas.addListSelectionListener(new ListSelectionListener() {
 			
 		public void valueChanged(ListSelectionEvent e) {
-				
-				/*Aca daba el error
+							
+				if(lstReservas.getSelectedValue()==null)return;
 				tboxID.setText(Integer.toString(lstReservas.getSelectedValue().getID()));
 				tboxCantidadPersonas.setText(Integer.toString(lstReservas.getSelectedValue().getCantidadPersonas()));
-				cboxTipoHabitacion.setSelectedItem(lstReservas.getSelectedValue().getTipoHabitacion().toString());
-				lstReservas.setSelectedIndex(0);*/
-				  
+				cboxTipoHabitacion.setSelectedItem(lstReservas.getSelectedValue().getTipoHabitacion().toString());		
+			
 			}
 		});
 		
@@ -84,24 +83,17 @@ public class ListadoHabitaciones extends JPanel {
 				try {
 					
 					Validar.ListaVacia(lstReservas);
-					
-					tboxID.setText(Integer.toString(lstReservas.getSelectedValue().getID()));
-					tboxCantidadPersonas.setText(Integer.toString(lstReservas.getSelectedValue().getCantidadPersonas()));
-					cboxTipoHabitacion.setSelectedItem(lstReservas.getSelectedValue().getTipoHabitacion().toString());
-					
 					Habitacion habitacionAModificar = new Habitacion();
 					habitacionAModificar = lstReservas.getSelectedValue();
 					habitacionAModificar.setNuevaHabitacion(tboxCantidadPersonas.getText(), cboxTipoHabitacion.getSelectedItem().toString(), habitacionAModificar.getListadoServicios());
 					ModeloHabitaciones.set(ModeloHabitaciones.indexOf(habitacionAModificar), habitacionAModificar);
 					JOptionPane.showMessageDialog(null, "Reserva modificada con éxito");
-					
 					lstReservas.setSelectedIndex(0);
 					
 				} catch (Exception excepcion) {
 					
 					JOptionPane.showMessageDialog(null, excepcion.getMessage());
 				}
-
 			}
 		});
 		
