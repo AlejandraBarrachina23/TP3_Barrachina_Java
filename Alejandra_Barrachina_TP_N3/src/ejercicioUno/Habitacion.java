@@ -49,5 +49,11 @@ public class Habitacion {
 		return CuentaId;
 	}
 	
+	public void IDRepetido(int idCargado) throws Exception {
+		
+		if(this.ID == idCargado) {
+			 throw new Exception("El ID esta repetido");			
+		}	
+	}
 }
 

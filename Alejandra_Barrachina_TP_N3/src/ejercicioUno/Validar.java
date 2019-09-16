@@ -1,4 +1,5 @@
 package ejercicioUno;
+import javax.swing.JList;
 import javax.swing.JTextField;
 
 public class Validar {
@@ -15,6 +16,12 @@ public class Validar {
 		
 		if(TextBox.getText().trim().isEmpty()) throw new Exception("Complete el campo");
 		
+		
+	}
+	
+	public static void ListaVacia(JList Listado) throws Exception {
+		
+		if(Listado.getSelectedIndex()==-1) throw new Exception("La lista esta vacia");
 		
 	}
 }

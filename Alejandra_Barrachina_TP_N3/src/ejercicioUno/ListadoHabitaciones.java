@@ -4,6 +4,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.JComboBox;
@@ -11,6 +12,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
+import java.awt.event.ActionListener;
+import java.util.ListResourceBundle;
+import java.awt.event.ActionEvent;
 
 public class ListadoHabitaciones extends JPanel {
 
@@ -26,12 +30,11 @@ public class ListadoHabitaciones extends JPanel {
 	}
 	
 	public ListadoHabitaciones() {
-		
+
 		setLayout(null);
 		JLabel lblListadoDeHabitaciones = new JLabel("Listado de Habitaciones reservadas");
 		lblListadoDeHabitaciones.setBounds(10, 11, 398, 14);
 		add(lblListadoDeHabitaciones);
-		
 		JLabel lblId = new JLabel("ID");
 		lblId.setBounds(10, 279, 24, 14);
 		add(lblId);
@@ -64,18 +67,65 @@ public class ListadoHabitaciones extends JPanel {
 		add(lstReservas);
 		lstReservas.addListSelectionListener(new ListSelectionListener() {
 			
-			public void valueChanged(ListSelectionEvent e) {
+		public void valueChanged(ListSelectionEvent e) {
 				
+				/*Aca daba el error
 				tboxID.setText(Integer.toString(lstReservas.getSelectedValue().getID()));
 				tboxCantidadPersonas.setText(Integer.toString(lstReservas.getSelectedValue().getCantidadPersonas()));
 				cboxTipoHabitacion.setSelectedItem(lstReservas.getSelectedValue().getTipoHabitacion().toString());
+				lstReservas.setSelectedIndex(0);*/
+				  
+			}
+		});
+		
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					
+					Validar.ListaVacia(lstReservas);
+					
+					tboxID.setText(Integer.toString(lstReservas.getSelectedValue().getID()));
+					tboxCantidadPersonas.setText(Integer.toString(lstReservas.getSelectedValue().getCantidadPersonas()));
+					cboxTipoHabitacion.setSelectedItem(lstReservas.getSelectedValue().getTipoHabitacion().toString());
+					
+					Habitacion habitacionAModificar = new Habitacion();
+					habitacionAModificar = lstReservas.getSelectedValue();
+					habitacionAModificar.setNuevaHabitacion(tboxCantidadPersonas.getText(), cboxTipoHabitacion.getSelectedItem().toString(), habitacionAModificar.getListadoServicios());
+					ModeloHabitaciones.set(ModeloHabitaciones.indexOf(habitacionAModificar), habitacionAModificar);
+					JOptionPane.showMessageDialog(null, "Reserva modificada con éxito");
+					
+					lstReservas.setSelectedIndex(0);
+					
+				} catch (Exception excepcion) {
+					
+					JOptionPane.showMessageDialog(null, excepcion.getMessage());
+				}
+
+			}
+		});
+		
+		btnEliminar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			
+			try {
+				
+				Validar.ListaVacia(lstReservas);
+				ModeloHabitaciones.remove(lstReservas.getSelectedIndex());
+				JOptionPane.showMessageDialog(null, "Reserva eliminada con éxito con éxito");
+					
+				} catch (Exception excepcion) {
+					
+					JOptionPane.showMessageDialog(null, excepcion.getMessage());
+				}
+			
 			}
 		});
 
 	}
 	
 	public void setModeloHabitaciones(DefaultListModel<Habitacion> modeloHabitaciones) {
-		
+			
 		this.ModeloHabitaciones = modeloHabitaciones;
 		lstReservas.setModel(this.ModeloHabitaciones);
 	}

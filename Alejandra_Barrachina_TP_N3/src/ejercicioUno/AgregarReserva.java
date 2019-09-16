@@ -27,7 +27,6 @@ public class AgregarReserva extends JPanel {
 
 	public AgregarReserva() {
 		
-		ModeloHabitaciones = new DefaultListModel<Habitacion>();
 		ValidarSoloNumeros validaSoloNumero = new ValidarSoloNumeros();
 		setBorder(new TitledBorder(null, "Agregar Habitaci\u00F3n", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		setLayout(null);
