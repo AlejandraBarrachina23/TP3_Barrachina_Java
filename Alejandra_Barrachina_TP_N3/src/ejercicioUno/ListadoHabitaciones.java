@@ -1,7 +1,6 @@
 package ejercicioUno;
 
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -13,7 +12,8 @@ import javax.swing.JButton;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import java.awt.event.ActionListener;
-import java.util.ListResourceBundle;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.ActionEvent;
 
 public class ListadoHabitaciones extends JPanel {
@@ -32,6 +32,7 @@ public class ListadoHabitaciones extends JPanel {
 	public ListadoHabitaciones() {
 
 		setLayout(null);
+		ValidarSoloNumeros validaSoloNumero = new ValidarSoloNumeros();
 		JLabel lblListadoDeHabitaciones = new JLabel("Listado de Habitaciones reservadas");
 		lblListadoDeHabitaciones.setBounds(10, 11, 398, 14);
 		add(lblListadoDeHabitaciones);
@@ -45,12 +46,14 @@ public class ListadoHabitaciones extends JPanel {
 		lblTipoDeHabitacion.setBounds(172, 279, 135, 14);
 		add(lblTipoDeHabitacion);
 		tboxID = new JTextField();
+		tboxID.setEnabled(false);
 		tboxID.setBounds(10, 297, 47, 20);
 		add(tboxID);
 		tboxID.setColumns(10);
 		tboxCantidadPersonas = new JTextField();
 		tboxCantidadPersonas.setColumns(10);
 		tboxCantidadPersonas.setBounds(68, 297, 91, 20);
+		tboxCantidadPersonas.addKeyListener(validaSoloNumero);
 		add(tboxCantidadPersonas);
 		JComboBox <String> cboxTipoHabitacion = new JComboBox<String>();
 		cboxTipoHabitacion.setBounds(169, 297, 130, 20);
@@ -68,7 +71,7 @@ public class ListadoHabitaciones extends JPanel {
 		lstReservas.addListSelectionListener(new ListSelectionListener() {
 			
 		public void valueChanged(ListSelectionEvent e) {
-							
+				
 				if(lstReservas.getSelectedValue()==null)return;
 				tboxID.setText(Integer.toString(lstReservas.getSelectedValue().getID()));
 				tboxCantidadPersonas.setText(Integer.toString(lstReservas.getSelectedValue().getCantidadPersonas()));
@@ -82,14 +85,17 @@ public class ListadoHabitaciones extends JPanel {
 				
 				try {
 					
-					Validar.ListaVacia(lstReservas);
-					Habitacion habitacionAModificar = new Habitacion();
-					habitacionAModificar = lstReservas.getSelectedValue();
-					habitacionAModificar.setNuevaHabitacion(tboxCantidadPersonas.getText(), cboxTipoHabitacion.getSelectedItem().toString(), habitacionAModificar.getListadoServicios());
-					ModeloHabitaciones.set(ModeloHabitaciones.indexOf(habitacionAModificar), habitacionAModificar);
-					JOptionPane.showMessageDialog(null, "Reserva modificada con éxito");
-					lstReservas.setSelectedIndex(0);
 					
+					Validar.ListaVacia(lstReservas);
+					if(Utilidades.Confirmacion("¿Esta seguro que desea modificar la reserva?")==0) {
+						Validar.IntervalosNumericos(tboxCantidadPersonas, 1, 5);
+						Habitacion habitacionAModificar = new Habitacion();
+						habitacionAModificar = lstReservas.getSelectedValue();
+						habitacionAModificar.setNuevaHabitacion(tboxCantidadPersonas.getText(), cboxTipoHabitacion.getSelectedItem().toString(), habitacionAModificar.getListadoServicios());
+						ModeloHabitaciones.set(ModeloHabitaciones.indexOf(habitacionAModificar), habitacionAModificar);
+						JOptionPane.showMessageDialog(null, "Reserva modificada con éxito");
+						lstReservas.setSelectedIndex(0);
+					}
 				} catch (Exception excepcion) {
 					
 					JOptionPane.showMessageDialog(null, excepcion.getMessage());
@@ -103,11 +109,15 @@ public class ListadoHabitaciones extends JPanel {
 			try {
 				
 				Validar.ListaVacia(lstReservas);
-				ModeloHabitaciones.remove(lstReservas.getSelectedIndex());
-				JOptionPane.showMessageDialog(null, "Reserva eliminada con éxito con éxito");
-					
-				} catch (Exception excepcion) {
-					
+				if(Utilidades.Confirmacion("¿Esta seguro que desea eliminar la reserva?")==0) {
+					ModeloHabitaciones.remove(lstReservas.getSelectedIndex());
+					JOptionPane.showMessageDialog(null, "Reserva ha sido eliminada con éxito");
+				
+				}	
+			} 
+			
+			catch (Exception excepcion) {
+		
 					JOptionPane.showMessageDialog(null, excepcion.getMessage());
 				}
 			
@@ -121,4 +131,18 @@ public class ListadoHabitaciones extends JPanel {
 		this.ModeloHabitaciones = modeloHabitaciones;
 		lstReservas.setModel(this.ModeloHabitaciones);
 	}
+	
+	class ValidarSoloNumeros extends KeyAdapter{
+		  
+		public void keyTyped(KeyEvent e) {
+			
+			char validar = e.getKeyChar();
+			if(Character.isLetter(validar)) {
+				e.consume();
+				JOptionPane.showMessageDialog(null, "Solo se permiten numeros");
+			} 
+		}
+	}
 }
+
+
